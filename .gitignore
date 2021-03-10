@@ -1,0 +1,4 @@
+.cache/
+.gen/
+.vscode/sftp.json
+*.log
