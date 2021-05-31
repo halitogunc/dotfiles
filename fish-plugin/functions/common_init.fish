@@ -67,6 +67,10 @@ function common_init
     bass source $HOME/.nix-profile/etc/profile.d/nix.sh
   end
 
+  if type -q npm
+    set -xg PATH (npm -g bin) $PATH
+  end
+
   if type -q yarn
     set -xg PATH (yarn global bin) $PATH
   end

@@ -45,7 +45,7 @@ df_install_asdf() {
 
   df_install_asdf_bashrc
 
-  df_install_asdf_plugin_version java adopt-openjdk-11.0.7+10
+  df_install_asdf_plugin_version java adoptopenjdk-16.0.1+9
   echo -e '\nexport JAVA_HOME=$(asdf where java)' >> ${DF_BASHRC_PATH}
 
   export NODEJS_CHECK_SIGNATURES=no
@@ -56,5 +56,6 @@ df_install_asdf() {
   fi
   npm install -g --silent yarn@latest npm@latest
   df_install_asdf_node_fix_npm
+  echo -e '\nexport PATH=$PATH:$(npm -g bin)' >> ${DF_BASHRC_PATH}
   echo -e '\nexport PATH=$PATH:$(yarn global bin)' >> ${DF_BASHRC_PATH}
 }
