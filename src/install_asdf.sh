@@ -46,7 +46,7 @@ df_install_asdf() {
   echo -e '\nexport JAVA_HOME=$(asdf where java)' >> ${DF_BASHRC_PATH}
 
   export NODEJS_CHECK_SIGNATURES=no
-  df_install_asdf_plugin_version nodejs lts
+  df_install_asdf_plugin_version nodejs 16.17.0
   if [ $(id -u) -eq "0" ]; then
     npm config set user 0
     npm config set unsafe-perm true
