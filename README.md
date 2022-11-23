@@ -7,16 +7,16 @@ These configs have been mostly copied from [Yasin Uslu's dotfiles](https://githu
 ```sh
 git clone https://github.com/halitogunc/dotfiles.git
 cd dotfiles
-./install.sh
+./df.sh install
 ```
 
 ## Make fish your default shell
 
-- In POSIX compliant shells like `bash` or `zsh`
+In POSIX-compliant shells like `bash` or `zsh`
 
-  ```sh
-  chsh -s $(which fish)
-  ```
+```sh
+chsh -s $(which fish)
+```
 
 - In `fish`
 

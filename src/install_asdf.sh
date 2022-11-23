@@ -35,21 +35,18 @@ df_install_asdf_bashrc() {
 }
 
 df_install_asdf() {
-  if [ ! -d "${HOME}/.asdf" ]; then
-    git clone --depth 1 https://github.com/asdf-vm/asdf.git ${HOME}/.asdf
-  fi
+  git clone --depth 1 https://github.com/asdf-vm/asdf.git ${HOME}/.asdf
 
   mkdir -p ${HOME}/.config/fish/completions
   cp ${HOME}/.asdf/completions/asdf.fish ${HOME}/.config/fish/completions
-  asdf update
 
   df_install_asdf_bashrc
 
-  df_install_asdf_plugin_version java adoptopenjdk-16.0.1+9
+  df_install_asdf_plugin_version java latest:adoptopenjdk-17
   echo -e '\nexport JAVA_HOME=$(asdf where java)' >> ${DF_BASHRC_PATH}
 
   export NODEJS_CHECK_SIGNATURES=no
-  df_install_asdf_plugin_version nodejs latest
+  df_install_asdf_plugin_version nodejs lts
   if [ $(id -u) -eq "0" ]; then
     npm config set user 0
     npm config set unsafe-perm true

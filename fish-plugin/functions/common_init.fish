@@ -12,6 +12,7 @@ function common_init
   alias lsl "command ls --color"
   alias ls lsd
   alias cat bat
+  alias pcat "bat --plain"
 
   abbr -a cls clear
 
@@ -85,6 +86,10 @@ function common_init
 
   if type -q react-native
     abbr --add rn 'react-native'
+  end
+
+  if test -d $PWD/vendor/bin
+    set -xg PATH $PWD/vendor/bin $PATH
   end
 
   # TODO: install fd with dotfiles and remove if check
