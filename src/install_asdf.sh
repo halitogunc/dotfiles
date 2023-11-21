@@ -8,51 +8,30 @@ df_install_asdf_plugin_version() {
   asdf global ${plugin} ${version}
 }
 
-df_install_asdf_node_fix_npm() {
-  local curDir="${PWD}"
-
-  for ver in ~/.asdf/installs/nodejs/*/bin; do
-    cd $ver
-    if [ -f ../.npm/bin/npm ]; then
-      ln -nfs ../.npm/bin/npm npm
-      ln -nfs ../.npm/bin/npx npx
-    fi
-  done
-
-  cd "${curDir}"
-}
-
-df_install_asdf_bashrc() {
-  mkdir -p ${DF_PROJECT_PATH}/.gen
-
-  echo '' > ${DF_BASHRC_PATH}
-  grep -qxF ". ${DF_BASHRC_PATH}" "${HOME}"/.bashrc || echo ". ${DF_BASHRC_PATH}" >> "${HOME}"/.bashrc
-
-  echo -e '\n. ${HOME}/.asdf/asdf.sh' >> ${DF_BASHRC_PATH}
-  echo -e '\n. ${HOME}/.asdf/completions/asdf.bash' >> ${DF_BASHRC_PATH}
-
-  source ${DF_BASHRC_PATH}
-}
-
 df_install_asdf() {
-  git clone --depth 1 https://github.com/asdf-vm/asdf.git ${HOME}/.asdf
+  echo "installing asdf"
 
-  mkdir -p ${HOME}/.config/fish/completions
-  cp ${HOME}/.asdf/completions/asdf.fish ${HOME}/.config/fish/completions
+  nix profile install nixpkgs#asdf-vm
 
-  df_install_asdf_bashrc
+  df_install_bashrc_append '. ${HOME}/.nix-profile/share/asdf-vm/asdf.sh'
 
-  df_install_asdf_plugin_version java latest:adoptopenjdk-17
-  echo -e '\nexport JAVA_HOME=$(asdf where java)' >> ${DF_BASHRC_PATH}
+  source "${DF_BASHRC_PATH}"
+
+  df_install_asdf_plugin_version java "latest:adoptopenjdk-17"
+  df_install_bashrc_append 'export JAVA_HOME=$(asdf where java)'
 
   export NODEJS_CHECK_SIGNATURES=no
-  df_install_asdf_plugin_version nodejs 16.17.0
+  df_install_asdf_plugin_version nodejs "20.2.0"
+
+  # if root, set npm config to allow global install without sudo
   if [ $(id -u) -eq "0" ]; then
     npm config set user 0
     npm config set unsafe-perm true
   fi
-  npm install -g --silent yarn@latest npm@latest
-  df_install_asdf_node_fix_npm
-  echo -e '\nexport PATH=$PATH:$(npm -g bin)' >> ${DF_BASHRC_PATH}
-  echo -e '\nexport PATH=$PATH:$(yarn global bin)' >> ${DF_BASHRC_PATH}
+
+  npm install -g --silent yarn@latest npm@latest pnpm@latest
+
+  df_install_bashrc_append 'export PATH="$PATH":"$(npm prefix -g)/bin"'
+  df_install_bashrc_append 'export PATH=$PATH:$(yarn global bin)'
+  df_install_bashrc_append 'export PATH=$PATH:$(pnpm bin)'
 }

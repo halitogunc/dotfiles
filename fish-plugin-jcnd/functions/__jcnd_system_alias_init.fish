@@ -1,7 +1,4 @@
-function system_alias_init
-    abbr --add dl 'cd ~/Downloads'
-    abbr --add de 'cd ~/Desktop'
-
+function __jcnd_system_alias_init
     abbr --add ip 'dig +short myip.opendns.com @resolver1.opendns.com'
     abbr --add localip 'ipconfig getifaddr en0'
 

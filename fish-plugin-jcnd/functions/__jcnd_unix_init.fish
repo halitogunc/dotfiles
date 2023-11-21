@@ -1,14 +1,9 @@
-function unix_init
-  if test -d $HOME/go
-    set -xg GOPATH $HOME/go
-    set -xg PATH $GOPATH/bin $PATH
-  end
-
+function __jcnd_unix_init
   switch (uname)
     case Linux
-      linux_init
+      __jcnd_linux_init
     case Darwin
-      mac_init
+      __jcnd_mac_init
     case FreeBSD NetBSD DragonFly
     case '*'
   end

@@ -16,12 +16,19 @@ df_init() {
 
   source "${DF_SRC_PATH}/require.sh"
   df_require
+  df_get_platform
 }
 
 df_task() {
   case $1 in
   install)
     df_install
+  ;;
+  apply-jcnd-config)
+    df_install_jcnd_config
+  ;;
+  dev-test-command)
+    df_install_fish
   ;;
   *)
     echo "command not found"

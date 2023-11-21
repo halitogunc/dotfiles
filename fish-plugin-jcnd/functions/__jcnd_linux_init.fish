@@ -1,4 +1,4 @@
-function linux_init
+function __jcnd_linux_init
   if test -d $HOME/Android/Sdk
     set -xg ANDROID_HOME $HOME/Android/Sdk
   end
